@@ -73,7 +73,7 @@ alias: 如下的 mf4rdx 是 `sh thisShell.sh` 的别名
 
 ### 调用形如
 - `mkYe comp-side -v -s <path-to>`
-- `mkYe comp-side --- -s <path-to> -a`
+- `mkYe comp-append-one -- -s <path-to> -a`
 
 ```markdown
 src
