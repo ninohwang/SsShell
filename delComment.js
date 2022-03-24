@@ -1,7 +1,5 @@
 // ref: https://www.jianshu.com/p/02fd3a471c45
-// ref: https://newbedev.com/writefile-no-such-file-or-directory
-// ref: https://stackoverflow.com/questions/34811222/writefile-no-such-file-or-directory
-// oth: 为啥我先全局安装了 pnpm add -g mkdirp; 运行（node del.js）找不到 mkdirp, 然后 npm i -g mkdirp (此时拒绝安装了)(所以还需要 pnpm remove -g mkdirp)
+
 var fs = require('fs')
 const mkdirp = require('mkdirp')
 var path = require('path')
@@ -21,7 +19,6 @@ const commentRegExp = /([^:]|^)\#(.*)(\r){0,1}(\n){0,1}$/gm
 
 function commentReplace(match, multi, multiText, singlePrefix) {
     // return singlePrefix || ''
-    // TODO: 如何是删除整行且不保留换行符
     return ''
 }
 

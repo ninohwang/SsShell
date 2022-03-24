@@ -157,16 +157,4 @@ else
     BoolTag=0
 fi
 
-
-if [ $BoolTag -eq 1 ];then
-    contentIndex=$(cat<<MKYE
-import $fileNameView from './$fileNameView'
-
-export {
-    $fileNameView,
-}
-MKYE
-)
-fi
-
 mkFile
