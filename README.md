@@ -7,12 +7,6 @@
 - 支持中划线命名
 - 路径去除冗余的(\/\/), 命令窗口友好输出
 
-### todo
-1. 可优化：项目引入路径别名前提下，准确初始化 `"[path/to]/$fileNameActions.js"` `"[path/to]/utils/BaseUtil`
-2. 若需要脚本执行时允许文件夹为中划线风格，而文件名为驼峰式 `sh <thisShell>.sh name-cafe`
-3. 命令的规范判断
-4. BoolTag 的引入，一些执行语句其实可以跳过
-
 ### test: 
 alias: 如下的 mf4rdx 是 `sh thisShell.sh` 的别名
 - `mf4rdx`
@@ -67,6 +61,37 @@ src
         CompSide.tsx
         AppendOne.tsx
 ```
+
+### test
+alias: 如下的 mkYe 是 `sh thisShell.sh` 的别名
+- `mkYe`
+- `mkYe  `
+- `mkYe --`
+- `mkYe -h` | `mkYe --help`
+- `mkYe home-tree`
+- `mkYe home-tree - -`
+- `mkYe home-tree -- --`    
+- `mkYe home-tree ------ ---------------------`
+- `mkYe home-tree -x` | `mkYe home-tree --xhere`
+- `mkYe home-tree -- -x`
+- `mkYe home-tree -v` | `mkYe home-tree -v --` | 
+- `mkYe home-tree -v -s`
+- 
+- `mkYe may-prev -v -s par/sub`
+- `mkYe may-cur -- -- par/sub/may-prev -a`
+- `mkYe may-then -- -- par/sub/may-prev -a`
+- `mkYe may-next -- -- par/sub/may-prev` (如此可能是误输入)
+- `mkYe may-oth -- -- par/oth -a` (如此可能是误输入)
+- `mkYe may-oth-help -- -- par/oth -a` (如此可能是误输入)
+- `mkYe hide-one -v -s /////path////to////detail//////////`
+- `mkYe hide-par -- -- //////path///to///detail////hide-one -a`
+
+# mayTo
+### todo
+1. 可优化：项目引入路径别名前提下，准确初始化 `"[path/to]/$fileNameActions.js"` `"[path/to]/utils/BaseUtil`
+2. 若需要脚本执行时允许文件夹为中划线风格，而文件名为驼峰式 `sh <thisShell>.sh name-cafe`
+3. 命令的规范判断
+4. BoolTag 的引入，一些执行语句其实可以跳过
 ### mayTodo:
 - 正则，如对中划线转驼峰式的需求：
 - 标准：echo hello-april_month | sed -r 's/(^|-|_)(\w)/\U\2/g'
@@ -103,27 +128,3 @@ p1=$( echo ///hello/path//sub///ext | sed -r $HdlPathBySed )
 echo $p1
 ```
 12. 这两个 sh 脚本的功能后期或应用 nodejs 实现？
-
-### test
-alias: 如下的 mkYe 是 `sh thisShell.sh` 的别名
-- `mkYe`
-- `mkYe  `
-- `mkYe --`
-- `mkYe -h` | `mkYe --help`
-- `mkYe home-tree`
-- `mkYe home-tree - -`
-- `mkYe home-tree -- --`    
-- `mkYe home-tree ------ ---------------------`
-- `mkYe home-tree -x` | `mkYe home-tree --xhere`
-- `mkYe home-tree -- -x`
-- `mkYe home-tree -v` | `mkYe home-tree -v --` | 
-- `mkYe home-tree -v -s`
-- 
-- `mkYe may-prev -v -s par/sub`
-- `mkYe may-cur -- -- par/sub/may-prev -a`
-- `mkYe may-then -- -- par/sub/may-prev -a`
-- `mkYe may-next -- -- par/sub/may-prev` (如此可能是误输入)
-- `mkYe may-oth -- -- par/oth -a` (如此可能是误输入)
-- `mkYe may-oth-help -- -- par/oth -a` (如此可能是误输入)
-- `mkYe hide-one -v -s /////path////to////detail//////////`
-- `mkYe hide-par -- -- //////path///to///detail////hide-one -a`
