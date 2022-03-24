@@ -17,6 +17,9 @@ RETRACT='\ \ \ \ '
 dirName=$1
 fileNameHead=$( echo "$1" | sed -r 's/(^|-|_)(\w)/\U\2/g' )
 
+# 处理路径中冗余 `\/`
+HdlPathBySed='s/((\/)(\/)+)/\2/g'
+
 viewProps=$fileNameHead"Props"
 
 pathToDetail=$4
@@ -97,10 +100,13 @@ MKYE
         fi
 
         echo "$contentView" >$opC
+        
+        # 使用正则处理路径输入如`///path///to///detail///`后速度有所下降, 所以如下的正则替换只用于服务控制台友好输出提示
+        pathView=$( echo $opC | sed -r $HdlPathBySed )
 
         #echo 出当前新建文件名，以允许命令窗口点击文件地址打开编辑窗口
         echo "====点击以下文本，打开窗口==="
-        echo -e "path:$PINK $opC $RES"
+        echo -e "path:$PINK$pathView$RES"
 
     fi
 }

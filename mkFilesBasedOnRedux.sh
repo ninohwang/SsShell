@@ -11,6 +11,9 @@ dirName=$1
 # fileNameHead=${1^}
 fileNameHead=$(echo "$1" | sed -r 's/(^|_|-)(\w)/\U\2/g')
 
+# 处理路径中冗余 `\/`
+HdlPathBySed='s/((\/)(\/)+)/\2/g'
+
 # 这里为空也不影响之后的路径拼接
 pathToDetail=$4
 
@@ -68,22 +71,29 @@ function mkFile() { # 函数声明
         mkdir -p src/{view/$pathToDetail/$dirName,actions/$pathToDetail/$dirName,reducer/$pathToDetail/$dirName}
         touch src/{view/$pathToDetail/$dirName/{$fileNameView".js",$fileNameView".scss"},actions/$pathToDetail/$dirName/$fileNameActions".js",reducer/$pathToDetail/$dirName/$fileNameModel".js"}
         
-        #预定基本代码段 `echo >>` 表示追加; 若直接 echo $varStr, 则会丢失掉文本换行信息
+        # 预定基本代码段 `echo >>` 表示追加; 若直接 echo $varStr, 则会丢失掉文本换行信息
+        # 因为如下写入文本到指定文件位置，而正则处理冗余路径似乎比较慢，所以如下三行还是不使用变量 pathView / pathModel
         echo "$contentView" >src/view/$pathToDetail/$dirName/$fileNameView".js"
         echo "$contentActions" >src/actions/$pathToDetail/$dirName/$fileNameActions".js"
         echo "$contentModel" >src/reducer/$pathToDetail/$dirName/$fileNameModel".js"
 
-        #echo 出当前新建文件名，以允许命令窗口点击文件地址打开编辑窗口
+        # 不过使用正则处理路径输入如`///path///to///detail///`后速度有所下降, 所以如下的正则替换只用于服务控制台友好输出提示
+        pathView=$(echo src/view/$pathToDetail/$dirName/$fileNameView.js | sed -r $HdlPathBySed)
+        pathModel=$(echo src/reducer/$pathToDetail/$dirName/$fileNameModel.js | sed -r $HdlPathBySed)
+        
+        # echo 出当前新建文件名，以允许命令窗口点击文件地址打开编辑窗口
         echo -e "====请稍后在 $RED src/reducer/index.js $RES 中引入新建 $RED$fileNameModel$RES 文件===="
         echo "====点击以下文本，打开窗口==="
-        echo -e "path:$PINK src/view/$pathToDetail/$dirName/$fileNameView.js $RES"
-        echo -e "path:$GREEN src/reducer/$pathToDetail/$dirName/$fileNameModel.js $RES"
-        echo -e "path:$BLUE src/actions/$pathToDetail/$dirName/$fileNameActions.js $RES"
+        echo -e "path:$PINK$pathView$RES"
+        echo -e "path:$GREEN$pathModel$RES"
+        echo -e "path:$BLUE$pathActions$RES"
 
     fi
 }
 
 # 初始化： contentView
+pathActions=$(echo src/actions/$pathToDetail/$dirName/$fileNameActions.js | sed -r $HdlPathBySed)
+
 if [ "$3" == "-f" -o "$3" == "--func" ];then
     contentView=$(cat<<EOF
 import React, {useEffect} from "react";
@@ -92,7 +102,7 @@ import moment from "moment";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import $fileNameActions from x"[path/to]/$fileNameActions.js"
+import $fileNameActions from "@$pathActions";
 
 import styles from "./$fileNameView.scss";
 
@@ -124,7 +134,7 @@ import moment from "moment";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import $fileNameActions from x"[path/to]/$fileNameActions.js"
+import $fileNameActions from "@$pathActions";
 
 import styles from "./$fileNameView.scss";
 
@@ -158,7 +168,7 @@ import moment from "moment";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import $fileNameActions from x"[path/to]/$fileNameActions.js"
+import $fileNameActions from "@$pathActions";
 
 import styles from "./$fileNameView.scss";
 
