@@ -2,6 +2,28 @@
 
 ## `mkFilesBasedOnRedux.sh`
 
+### 命令行效果示意
+
+1.
+```shell
+$ sh mkFilesBasedOnRedux.sh --help
+sh <thisShell>.sh <fileName> <-v|--> <-f|--> <pathTo|-->
+     fileName    你想要建立的文件（目录）群
+     -v, --view  组件文件以 view 结尾，eg: NameView.js
+     -f, --func, --fs, --funcs  模板使用函数式组件; fs 表征模板下为具名函数 （s: specific
+     pathTo      决定多极目录
+```
+
+2.
+```shell
+$ sh mkFilesBasedOnRedux.sh tik-tok-main -v -fs path/to/detail2
+====请稍后在  src/reducer/index.js  中引入新建 TikTokMainModel 文件====
+====点击以下文本，打开窗口===
+path:src/view/path/to/detail2/tik-tok-main/TikTokMainView.js
+path:src/reducer/path/to/detail2/tik-tok-main/TikTokMainModel.js
+path:src/actions/path/to/detail2/tik-tok-main/TikTokMainActions.js
+```
+
 ### upd
 - 更改缩进为空格符；添加第四个入参 pathToDetail
 - 支持中划线命名
